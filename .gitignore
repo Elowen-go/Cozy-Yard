@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+/ios/
+*.d.ts
+.mono/
+
+# Export output
+/exports/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# IDE / editor user settings
+*.user
+*.user.*
