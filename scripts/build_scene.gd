@@ -24,19 +24,34 @@ func _init():
 	tilemap.add_layer(0)
 	tilemap.set_layer_name(0, "Ground")
 	
-	# Place tiles - large ground area
+	# Place tiles - island/platform with borders
 	# In this atlas, (1,1) is the seamless full-grass tile.
-	# (0,0) is actually the grass-with-edge tile (shown on sides of the old screenshot).
+	# The surrounding tiles form a grass platform border.
 	var source_id := 0
-	for x in range(-15, 16):
-		for y in range(-15, 16):
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(1, 1))
+	var size := 15
 	
-	# Optional: add a different-colored path down the middle
-	# Using (2,1) which appears as a slightly different grass/dirt tile
-	for x in range(-1, 2):
-		for y in range(-15, 16):
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(2, 1))
+	for x in range(-size, size + 1):
+		for y in range(-size, size + 1):
+			var atlas := Vector2i(1, 1)  # default interior grass
+			
+			if x == -size and y == -size:
+				atlas = Vector2i(0, 0)  # top-left corner
+			elif x == size and y == -size:
+				atlas = Vector2i(5, 0)  # top-right corner
+			elif x == -size and y == size:
+				atlas = Vector2i(0, 3)  # bottom-left corner
+			elif x == size and y == size:
+				atlas = Vector2i(5, 3)  # bottom-right corner
+			elif x == -size:
+				atlas = Vector2i(0, 1 + (y % 2))  # left edge
+			elif x == size:
+				atlas = Vector2i(5, 1 + (y % 2))  # right edge
+			elif y == -size:
+				atlas = Vector2i(1 + (x % 4), 0)  # top edge
+			elif y == size:
+				atlas = Vector2i(1 + (x % 4), 3)  # bottom edge
+			
+			tilemap.set_cell(0, Vector2i(x, y), source_id, atlas)
 	
 	# Add Camera2D
 	var camera := Camera2D.new()
