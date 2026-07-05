@@ -47,7 +47,8 @@ func _init():
 	
 	var camera := Camera2D.new()
 	camera.name = "Camera"
-	camera.zoom = Vector2(2.0, 2.0)
+	camera.position = Vector2(16, 16)
+	camera.zoom = Vector2(1.5, 1.5)
 	
 	root.add_child(tilemap, true)
 	tilemap.add_child(camera, true)
