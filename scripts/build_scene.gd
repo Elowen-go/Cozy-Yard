@@ -25,24 +25,17 @@ func _init():
 	tilemap.set_layer_name(0, "Ground")
 	
 	# Place tiles - large ground area
-	# Atlas layout (32x32):
-	# Row 0: full grass [0..5], grass-to-cliff top [6..8], grass edge right [9..11]
-	# Row 1: grass variations, cliff edges
-	# Use only clean full-grass tiles from row 0, columns 0-5
+	# In this atlas, (0,0) is the only truly seamless full-grass tile.
+	# Use it everywhere to get a flat, uniform lawn.
 	var source_id := 0
 	for x in range(-15, 16):
 		for y in range(-15, 16):
-			# Pick a single clean grass tile and add slight noise
-			var tile_x := ((x + 15) % 6) if ((x + y) % 7 != 0) else 1
-			var tile_y := 0
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(tile_x, tile_y))
+			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(0, 0))
 	
-	# Add a dirt path using row 1, columns 0-5 (darker/brownish variants)
+	# Add a dirt path down the middle using (1,1) which is a dark earth tile
 	for x in range(-1, 2):
 		for y in range(-15, 16):
-			var tile_x := ((y + 15) % 3) + 1
-			var tile_y := 1
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(tile_x, tile_y))
+			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(1, 1))
 	
 	# Add Camera2D
 	var camera := Camera2D.new()
