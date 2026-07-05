@@ -2,51 +2,48 @@
 extends SceneTree
 
 func _init():
-	var tile_size := 32
-	var texture_path := "res://assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png"
+	var tile_size := Vector2i(64, 64)
 	var tileset_path := "res://assets/Tiny Swords (Free Pack)/Terrain/Tileset/tileset_ground.tres"
+	var tilemap_path := "res://assets/Tiny Swords (Free Pack)/Terrain/Tileset/Tilemap_color1.png"
 	
-	print("Generating TileSet...")
-	
-	# Load texture
-	var texture := load(texture_path) as Texture2D
-	if not texture:
-		print("Failed to load texture: ", texture_path)
-		quit(1)
-		return
-	
-	print("Texture loaded: ", texture.get_width(), "x", texture.get_height())
-	
-	# Create TileSet
+	# Create tileset
 	var tileset := TileSet.new()
-	tileset.tile_size = Vector2i(tile_size, tile_size)
+	tileset.tile_size = tile_size
 	
-	# Create atlas source
-	var source := TileSetAtlasSource.new()
-	source.texture = texture
-	source.texture_region_size = Vector2i(tile_size, tile_size)
-	
-	# Calculate tiles
-	var cols := texture.get_width() / tile_size
-	var rows := texture.get_height() / tile_size
-	
-	# Add all tiles from the atlas
-	for y in range(rows):
-		for x in range(cols):
-			var atlas_coords := Vector2i(x, y)
-			source.create_tile(atlas_coords)
-	
-	# Add source to tileset
-	tileset.add_source(source)
-	
-	# Save the tileset
-	var err := ResourceSaver.save(tileset, tileset_path)
-	if err != OK:
-		print("Failed to save tileset: ", err)
+	# Add atlas source
+	var atlas := TileSetAtlasSource.new()
+	var texture := load(tilemap_path) as Texture2D
+	if texture == null:
+		print("ERROR: Failed to load texture: ", tilemap_path)
 		quit(1)
 		return
 	
-	print("TileSet saved: ", tileset_path)
-	print("Total tiles: ", cols * rows, " (", cols, "x", rows, ")")
+	atlas.texture = texture
+	atlas.texture_region_size = tile_size
+	atlas.margins = Vector2i(0, 0)
+	
+	# Create tiles in 9x6 grid
+	var atlas_width := 9
+	var atlas_height := 6
+	for x in range(atlas_width):
+		for y in range(atlas_height):
+			var coord := Vector2i(x, y)
+			atlas.create_tile(coord)
+			# Make all tiles walkable for now
+			atlas.set_tile_animation_columns(coord, 0)
+	
+	var source_id := tileset.add_source(atlas)
+	
+	# Save tileset
+	var save_result := ResourceSaver.save(tileset, tileset_path)
+	if save_result != OK:
+		print("ERROR: Failed to save tileset: ", save_result)
+		quit(1)
+		return
+	
+	print("TileSet saved successfully: ", tileset_path)
+	print("Atlas size: ", atlas_width, "x", atlas_height)
+	print("Tile size: ", tile_size)
+	print("Source ID: ", source_id)
 	
 	quit(0)
