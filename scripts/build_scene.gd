@@ -25,17 +25,18 @@ func _init():
 	tilemap.set_layer_name(0, "Ground")
 	
 	# Place tiles - large ground area
-	# In this atlas, (0,0) is the only truly seamless full-grass tile.
-	# Use it everywhere to get a flat, uniform lawn.
+	# In this atlas, (1,1) is the seamless full-grass tile.
+	# (0,0) is actually the grass-with-edge tile (shown on sides of the old screenshot).
 	var source_id := 0
 	for x in range(-15, 16):
 		for y in range(-15, 16):
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(0, 0))
+			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(1, 1))
 	
-	# Add a dirt path down the middle using (1,1) which is a dark earth tile
+	# Optional: add a different-colored path down the middle
+	# Using (2,1) which appears as a slightly different grass/dirt tile
 	for x in range(-1, 2):
 		for y in range(-15, 16):
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(1, 1))
+			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(2, 1))
 	
 	# Add Camera2D
 	var camera := Camera2D.new()
