@@ -25,24 +25,30 @@ func _init():
 	tilemap.set_layer_name(0, "Ground")
 	
 	# Place tiles - large ground area
+	# Atlas layout (32x32):
+	# Row 0: full grass [0..5], grass-to-cliff top [6..8], grass edge right [9..11]
+	# Row 1: grass variations, cliff edges
+	# Use only clean full-grass tiles from row 0, columns 0-5
 	var source_id := 0
 	for x in range(-15, 16):
 		for y in range(-15, 16):
-			# Use different tiles for variety
-			var tile_x := x % 6
-			var tile_y := 0 if y % 3 != 0 else 1
+			# Pick a single clean grass tile and add slight noise
+			var tile_x := ((x + 15) % 6) if ((x + y) % 7 != 0) else 1
+			var tile_y := 0
 			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(tile_x, tile_y))
 	
-	# Add a dirt path
-	for x in range(-2, 3):
+	# Add a dirt path using row 1, columns 0-5 (darker/brownish variants)
+	for x in range(-1, 2):
 		for y in range(-15, 16):
-			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(6, 5))
+			var tile_x := ((y + 15) % 3) + 1
+			var tile_y := 1
+			tilemap.set_cell(0, Vector2i(x, y), source_id, Vector2i(tile_x, tile_y))
 	
 	# Add Camera2D
 	var camera := Camera2D.new()
 	camera.name = "Camera"
 	camera.position = Vector2(0, 0)
-	camera.zoom = Vector2(2, 2)
+	camera.zoom = Vector2(1.5, 1.5)
 	
 	# Build scene tree
 	root.add_child(tilemap, true)
