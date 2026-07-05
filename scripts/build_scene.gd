@@ -20,34 +20,34 @@ func _init():
 	tilemap.add_layer(0)
 	tilemap.set_layer_name(0, "Ground")
 	
-	# 9x9 island with borders
+	# 9x9 island with proper 3x3 borders
 	var size := 4
 	for x in range(-size, size + 1):
 		for y in range(-size, size + 1):
-			var atlas := Vector2i(0, 1)  # interior grass
+			var atlas := Vector2i(1, 1)  # interior grass
 			
 			if x == -size and y == -size:
 				atlas = Vector2i(0, 0)  # top-left corner
 			elif x == size and y == -size:
-				atlas = Vector2i(8, 0)  # top-right corner
+				atlas = Vector2i(2, 0)  # top-right corner
 			elif x == -size and y == size:
-				atlas = Vector2i(0, 5)  # bottom-left corner
+				atlas = Vector2i(0, 2)  # bottom-left corner
 			elif x == size and y == size:
-				atlas = Vector2i(8, 5)  # bottom-right corner
+				atlas = Vector2i(2, 2)  # bottom-right corner
 			elif x == -size:
-				atlas = Vector2i(0, 2 + (abs(y) % 2))  # left edge
+				atlas = Vector2i(0, 1)  # left edge
 			elif x == size:
-				atlas = Vector2i(8, 2 + (abs(y) % 2))  # right edge
+				atlas = Vector2i(2, 1)  # right edge
 			elif y == -size:
-				atlas = Vector2i(1 + ((x + size) % 3), 0)  # top edge
+				atlas = Vector2i(1, 0)  # top edge
 			elif y == size:
-				atlas = Vector2i(1 + ((x + size) % 3), 5)  # bottom edge
+				atlas = Vector2i(1, 2)  # bottom edge
 			
 			tilemap.set_cell(0, Vector2i(x, y), 0, atlas)
 	
 	var camera := Camera2D.new()
 	camera.name = "Camera"
-	camera.zoom = Vector2(1.5, 1.5)
+	camera.zoom = Vector2(2.0, 2.0)
 	
 	root.add_child(tilemap, true)
 	tilemap.add_child(camera, true)
@@ -57,7 +57,7 @@ func _init():
 	var scene := PackedScene.new()
 	scene.pack(root)
 	ResourceSaver.save(scene, "res://scenes/main.tscn")
-	print("Saved 9x9 bordered scene")
+	print("Saved 9x9 bordered scene with 32x32 tiles")
 	
 	root.free()
 	quit(0)
