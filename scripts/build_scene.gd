@@ -53,6 +53,7 @@ func _init():
 	
 	root.add_child(tilemap, true)
 	tilemap.add_child(camera, true)
+	camera.make_current()
 	tilemap.owner = root
 	camera.owner = root
 	
