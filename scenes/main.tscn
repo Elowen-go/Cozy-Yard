@@ -14,3 +14,4 @@ layer_1/name = "Layer0"
 
 [node name="Camera" type="Camera2D" parent="Ground"]
 zoom = Vector2(1.5, 1.5)
+current = true
