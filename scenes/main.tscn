@@ -5,6 +5,7 @@
 [node name="MainScene" type="Node2D"]
 
 [node name="Ground" type="TileMap" parent="."]
+position = Vector2(-16, -16)
 tile_set = ExtResource("1_o5qli")
 format = 2
 layer_0/name = "Ground"
@@ -12,5 +13,4 @@ layer_0/tile_data = PackedInt32Array(-196612, 0, 0, -131076, 0, 1, -65540, 0, 1,
 layer_1/name = "Layer0"
 
 [node name="Camera" type="Camera2D" parent="Ground"]
-position = Vector2(16, 16)
 zoom = Vector2(1.5, 1.5)

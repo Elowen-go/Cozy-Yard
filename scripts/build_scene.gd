@@ -45,9 +45,10 @@ func _init():
 			
 			tilemap.set_cell(0, Vector2i(x, y), 0, atlas)
 	
+	tilemap.position = Vector2(-16, -16)
+	
 	var camera := Camera2D.new()
 	camera.name = "Camera"
-	camera.position = Vector2(16, 16)
 	camera.zoom = Vector2(1.5, 1.5)
 	
 	root.add_child(tilemap, true)
