@@ -20,7 +20,9 @@ func _init():
 	tilemap.add_layer(0)
 	tilemap.set_layer_name(0, "Ground")
 	
-	# 9x9 island with proper 3x3 borders
+	# 9x9 island using the 6x6 grass block's nine-patch tiles.
+	# The source texture stores the right and bottom borders at atlas index 5,
+	# not index 2 as in a 3x3 atlas.
 	var size := 4
 	for x in range(-size, size + 1):
 		for y in range(-size, size + 1):
@@ -29,19 +31,19 @@ func _init():
 			if x == -size and y == -size:
 				atlas = Vector2i(0, 0)  # top-left corner
 			elif x == size and y == -size:
-				atlas = Vector2i(2, 0)  # top-right corner
+				atlas = Vector2i(5, 0)  # top-right corner
 			elif x == -size and y == size:
-				atlas = Vector2i(0, 2)  # bottom-left corner
+				atlas = Vector2i(0, 5)  # bottom-left corner
 			elif x == size and y == size:
-				atlas = Vector2i(2, 2)  # bottom-right corner
+				atlas = Vector2i(5, 5)  # bottom-right corner
 			elif x == -size:
 				atlas = Vector2i(0, 1)  # left edge
 			elif x == size:
-				atlas = Vector2i(2, 1)  # right edge
+				atlas = Vector2i(5, 1)  # right edge
 			elif y == -size:
 				atlas = Vector2i(1, 0)  # top edge
 			elif y == size:
-				atlas = Vector2i(1, 2)  # bottom edge
+				atlas = Vector2i(1, 5)  # bottom edge
 			
 			tilemap.set_cell(0, Vector2i(x, y), 0, atlas)
 	
