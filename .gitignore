@@ -19,6 +19,7 @@ Thumbs.db
 # Local Codex and planning workspace
 /.codex/
 /.superpowers/
+/.hyperion/
 
 # Local test scenes and temporary Godot recovery files
 /assets/test/
